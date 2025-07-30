@@ -1,0 +1,42 @@
+services:
+  carp-db:
+    image: postgres:latest
+    container_name: carp-db
+    env_file:
+      - .env
+    volumes:
+      - carp-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - carpnet
+  pg_admin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "8080:80"
+    depends_on:
+      - carp-db
+    networks:
+      - carpnet
+volumes:
+  pgadmin-data:
+    driver: local
+  carp-db-data:
+    driver: local
+networks:
+  carpnet:
+
+
+
+
+
+
+
+
+
