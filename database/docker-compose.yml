@@ -1,6 +1,6 @@
 services:
   carp-db:
-    image: postgres:latest
+    image: postgres:latest 
     container_name: carp-db
     env_file:
       - .env
