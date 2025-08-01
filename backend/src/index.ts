@@ -6,13 +6,6 @@ const app = express();
 app.use(express.json())
 app.use(cors());
 
-type fish = {
-    alt_label: string;
-    species: string;
-    label: string;
-    notation: string
-  };
-
 async function getData() {
     const allFishURL =  "https://environment.data.gov.uk/ecology/api/v1/species?skip=0&take=250";
     try {
@@ -31,7 +24,7 @@ async function getData() {
   }
 
 //endpoint
-app.get("/api/carp/search", async (req, res) => {
+app.get("/api/allfish", async (req, res) => {
     const allFish = await getData()
     console.log(allFish)
     res.json({
