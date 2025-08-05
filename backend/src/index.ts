@@ -1,6 +1,5 @@
 /*import express from 'express';
 import cors from 'cors';
-//import * as getData from './species-api';
 
 const app = express();
 
