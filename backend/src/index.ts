@@ -1,5 +1,6 @@
-import express from 'express';
+/*import express from 'express';
 import cors from 'cors';
+//import * as getData from './species-api';
 
 const app = express();
 
@@ -7,21 +8,22 @@ app.use(express.json())
 app.use(cors());
 
 async function getData() {
-    const allFishURL =  "https://environment.data.gov.uk/ecology/api/v1/species?skip=0&take=250";
-    try {
-      const response = await fetch(allFishURL);
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-  
-      const json = await response.json();
-      console.log("success")
-      return json
-
-    } catch (error: any) {
-      console.error(error.message);
+  const allFishURL =  "https://environment.data.gov.uk/ecology/api/v1/species?skip=0&take=250";
+  try {
+    const response = await fetch(allFishURL);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
     }
+
+    const json = await response.json();
+    console.log("success")
+    return json
+
+  } catch (error: any) {
+    console.error(error.message);
   }
+}
+
 
 //endpoint
 app.get("/api/allfish", async (req, res) => {
@@ -39,4 +41,4 @@ app.get("/", async (req, res) => {
 
 app.listen(5000, () => {
     console.log("Server running on localhost:5000");
-});
+});*/
