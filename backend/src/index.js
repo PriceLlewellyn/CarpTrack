@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import dotenv from "dotenv"
+import routes from '../routes';
 
 dotenv.config()
 
@@ -11,7 +12,7 @@ app.use(cors())//* accepts request from anywhere
 app.use(express.json())//accepst json
 app.use(express.urlencoded({extended: true}))
 
-//app.use("/api-v1", routes);
+app.use("/api-v1", routes);
 
 app.use("*", (req, res) => {
     res.status(404).json({
