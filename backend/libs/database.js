@@ -1,10 +1,13 @@
 import pg from 'pg';
-import decrypt from 'dotenv';
+import dotenv from "dotenv";
 
-configDotenv.config();
+dotenv.config();
 
 const { Pool } = pg;
 
 export const pool = new Pool({
     connectionString: process.env.POSTGRES_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
