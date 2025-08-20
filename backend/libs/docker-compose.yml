@@ -1,15 +1,16 @@
 services:
-  carp-db:
+  carptracker-db:
     image: postgres:latest 
-    container_name: carp-db
+    container_name: carptracker-db
     env_file:
       - .env
     volumes:
-      - carp-db-data:/var/lib/postgresql/data
+      - carptracker-db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
-      - carpnet
+      - carptrackernet
+
   pg_admin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
@@ -21,22 +22,15 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - carp-db
+      - carptracker-db
     networks:
-      - carpnet
+      - carptrackernet
+
 volumes:
   pgadmin-data:
     driver: local
-  carp-db-data:
+  carptracker-db-data:
     driver: local
+
 networks:
-  carpnet:
-
-
-
-
-
-
-
-
-
+  carptrackernet:
