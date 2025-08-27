@@ -1,37 +1,101 @@
-import cors from 'cors';
-import express from 'express';
-import dotenv from "dotenv";
-import pool from './src/config/db.js';
+import express from "express";
+import { PrismaClient } from './src/generated/prisma/index.js'
 
-
-// Load enviroment variables into process.env
-dotenv.config();
-
-// creates express application
+const prisma = new PrismaClient();
 const app = express();
 
-// Define the port number (use environment variable if set, otherwise default to 8000)
-const port = process.env.PORT || 8000;
+//json
+app.use(express.json());
 
-
-// Middlewares
-app.use(cors()) // Allow requests from any origin (public API access)
-app.use(express.json()) // Parse incoming requests with JSON payloads
-
-
-// Routes
-
-
-// Error Handling middleware
-
-// Testing POSTGRESS Connection
-app.get("/", async(requestAnimationFrame, res) => {
-    const result = await pool.query("SELECT current_database()");
-    res.send(`The databse name is: ${result.rows[0].current_database}`);
+//cors
+app.use((req, res, next) => {
+    res.setheader('Access-Control-Allow-Origin', `*`);
+    res.setheader('Access-Control-Allow-Methods', `GET, POST, PUT, DELETE`);
+    res.setheader('Access-Control-Allow-Headers', `Content-Type`);
+    next();
 });
 
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server running on http:localhost:${port}`);
+//test api
+app.get('/test', (req, res) => {
+    try {
+        res.status(200).json({ message: 'API is working' });
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
 });
+
+//get all users
+app.get('/users', async (req, res) => {
+    try {
+        const users = await prisma.user.findMany();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
+
+//get user by id
+app.get('/users/:id', async (req, res) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: number(req.params.id),
+            },
+        });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
+
+//creat user
+app.post('/users', async (req, res) => {
+    try {
+        const user = await prisma.user.create({
+            data: {
+                name: req.body.name,
+                email: req.body.email
+            },
+        });
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
+
+//update user
+app.put('/users/:id', async (req, res) => {
+    try {
+        const user = await prisma.user.update({
+            where: {
+                id: Number(req.params.id),
+            },
+            data: {
+                name: req.body.name,
+                email: req.body.email
+            },
+        });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
+
+//delete user
+app.delete('/users/:id', async (req, res) => {
+    try {
+        const user = await prisma.user.delete({
+            where: {
+                id: number(req.params.id),
+            },
+        });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
+
+//start server
+const PORT = process.nextTick.PORT || 4000;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
