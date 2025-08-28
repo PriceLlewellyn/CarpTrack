@@ -1,6 +1,6 @@
 services:
   carpT-db:
-    image: postgres:latest
+    image: postgres:15
     container_name: carpT-db
     env_file:
       - .env

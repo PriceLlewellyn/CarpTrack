@@ -9,9 +9,9 @@ app.use(express.json());
 
 //cors
 app.use((req, res, next) => {
-    res.setheader('Access-Control-Allow-Origin', `*`);
-    res.setheader('Access-Control-Allow-Methods', `GET, POST, PUT, DELETE`);
-    res.setheader('Access-Control-Allow-Headers', `Content-Type`);
+    res.setHeader('Access-Control-Allow-Origin', `*`);
+    res.setHeader('Access-Control-Allow-Methods', `GET, POST, PUT, DELETE`);
+    res.setHeader('Access-Control-Allow-Headers', `Content-Type`);
     next();
 });
 
