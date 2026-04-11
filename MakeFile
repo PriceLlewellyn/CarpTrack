@@ -1,0 +1,16 @@
+# Starts everything. -d runs it in 'detached' mode so it doesn't hog your terminal.
+up:
+	docker compose up -d
+
+# Stops everything without deleting data.
+down:
+	docker compose down
+
+# Rebuilds the images (use this if you add new npm packages).
+build:
+	docker compose up -d --build
+
+
+# Stops containers and WIPES the database volume. Useful for a total reset.
+clean:
+	docker compose down -v
