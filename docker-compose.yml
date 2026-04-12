@@ -1,41 +1,35 @@
-version: "3.8"
-
 services:
-  # --- DATABASE LAYER ---
-  db:
+  carp-db:
     image: postgres:15-alpine
-    container_name: carptrack_db
+    container_name: carp-db
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-    ports:
-      - "${DB_PORT}:5432"
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=carptrack_db
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
-      - carptrack_network
+      - carpnet
 
-  # --- PGADMIN ---
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: carptrack_pgadmin
+  pg_admin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
     restart: always
     environment:
-      # These are the credentials to log into the pgAdmin website
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_CONFIG_SERVER_MODE=False
     ports:
-      - "5050:80" # Access pgAdmin at http://localhost:5050
-    networks:
-      - carptrack_network
+      - "8080:80"
     depends_on:
-      - db
+      - carp-db
+    networks:
+      - carpnet
 
 networks:
-  carptrack_network:
+  carpnet:
+    name: carpnet
     driver: bridge
-
-volumes:
-  pgdata:
