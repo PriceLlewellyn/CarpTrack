@@ -12,18 +12,152 @@ datasource db {
   provider = "postgresql"
 }
 
+//user and social
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id         String       @id @default(uuid())
+  username   String       @unique
+  email      String       @unique
+  catches    Catch[]
+  gear       Gear[]
+  baits      Bait[]
+  waypoints  Waypoint[]
+  sessions   Session[]
+  clubs      ClubMember[]
+
+  //social relations
+  followedBy User[]       @relation("UserFollows")
+  following  User[]       @relation("UserFollows")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+//gear and bait
+model Gear {
+  id        String   @id @default(uuid())
+  brand     String
+  model     String
+  type      GearType 
+  subType   String?  //e.g. "Chod Rig", "13m Pole"
+  size      String?  
+  catches   Catch[]  //prisma needs this to match the @relation in Catch
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Bait {
+  id        String   @id @default(uuid())
+  name      String   
+  flavor    String?
+  type      BaitType 
+  catches   Catch[]
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+//sessions
+model Session {
+  id            String       @id @default(uuid())
+  title         String?      
+  style         FishingStyle @default(GENERAL_COARSE)
+  startTime     DateTime     @default(now())
+  endTime       DateTime?
+  
+  //match/carp specific data
+  pegNumber     String?
+  totalWeight   Float?       
+  
+  catches       Catch[]
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
+}
+
+//the catch
+model Catch {
+  id            String   @id @default(uuid())
+  species       String
+  weight        Float?   
+  length        Float?   
+  imageUrl      String?
+
+  //carp specifics
+  fishName      String?  //for named specimens
+  isPB          Boolean  @default(false)
+  
+  //location and environment
+  lat           Float
+  lng           Float
+  waterTemp     Float?
+  pressure      Float?
+  
+  //relationships
+  sessionId     String?
+  session       Session? @relation(fields: [sessionId], references: [id])
+  
+  gearId        String?
+  gear          Gear?    @relation(fields: [gearId], references: [id])
+  
+  baitId        String?
+  bait          Bait?    @relation(fields: [baitId], references: [id])
+  
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  
+  createdAt     DateTime @default(now())
+}
+
+//waypoints
+model Waypoint {
+  id          String    @id @default(uuid())
+  label       String   
+  type        PointType 
+  lat         Float
+  lng         Float
+  depth       Float?
+  bottomType  String?   // "silt", "gravel"
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+//clubs
+model Club {
+  id          String       @id @default(uuid())
+  name        String
+  members     ClubMember[]
+}
+
+model ClubMember {
+  id     String @id @default(uuid())
+  role   String @default("MEMBER")
+  userId String
+  clubId String
+  user   User   @relation(fields: [userId], references: [id])
+  club   Club   @relation(fields: [clubId], references: [id])
+}
+
+//enums
+enum GearType {
+  ROD
+  REEL
+  LINE
+  HOOK
+  POLE
+}
+
+enum BaitType {
+  BOILIE
+  PELLET
+  GROUNDBAIT
+  LIVE
+  PARTICLE
+}
+
+enum FishingStyle {
+  MATCH
+  CARP
+  GENERAL_COARSE
+}
+
+enum PointType {
+  GRAVEL_BAR
+  SILT_PATCH
+  MARGIN
+  PEG_LOCATION
 }
