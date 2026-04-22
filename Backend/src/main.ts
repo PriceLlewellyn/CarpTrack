@@ -1,12 +1,8 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from 'src/app.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  
-  await app.listen(3000);
-  
-  const url = await app.getUrl();
-  console.log(`Application is running on: ${url}`);
-}
-bootstrap();
+import { Module } from '@nestjs/common';
+import { UsersController } from './modules/usersModule/users.controller';
+
+@Module({
+  controllers: [UsersController],
+})
+export class AppModule {}
