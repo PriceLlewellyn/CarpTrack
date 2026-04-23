@@ -13,14 +13,14 @@ export class CreateUserDto {
     catches!: number;
 
     @IsString()
-    gear!: string;
+    gear!: string[];
 
     @IsString()
-    baits!: string;
+    baits!: string[];
 
     @IsOptional()
     @IsString()
-    waypoints?: string;
+    waypoints?: string[];
 
     @IsOptional()
     @IsString()

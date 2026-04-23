@@ -5,9 +5,9 @@ export interface User {
     catches: number;
     gear: string[];
     baits: string[];
-    waypoints: string[];
-    sessions: string;
-    clubs: string;
+    waypoints?: string[];
+    sessions?: string;
+    clubs?: string;
     createdAt?: Date;
     updatedAt?: Date
 }
