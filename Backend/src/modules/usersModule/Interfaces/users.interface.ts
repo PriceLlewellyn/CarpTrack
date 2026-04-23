@@ -3,9 +3,11 @@ export interface User {
     name: string;
     email: string;
     catches: number;
-    gear: string;
-    baits: string;
-    waypoints: string;
+    gear: string[];
+    baits: string[];
+    waypoints: string[];
     sessions: string;
     clubs: string;
+    createdAt?: Date;
+    updatedAt?: Date
 }
