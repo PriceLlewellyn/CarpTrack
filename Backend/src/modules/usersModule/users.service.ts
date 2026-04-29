@@ -5,13 +5,8 @@ import { User } from './Interfaces/users.interface';
 export class UsersService {
     private readonly users: User[] = [];
 
-   async create(user: User): Promise<User> {
-        const newUser = {
-            ...user,
-            id: this.users.length + 1
-        }
-        this.users.push(newUser)
-        return newUser
+    create(user: User) {
+        this.users.push(user)
     }
 
     findAll(): User[] {

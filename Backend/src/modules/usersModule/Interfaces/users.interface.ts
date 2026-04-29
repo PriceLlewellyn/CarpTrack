@@ -6,8 +6,8 @@ export interface User {
     gear: string[];
     baits: string[];
     waypoints?: string[];
-    sessions?: string;
-    clubs?: string;
+    sessions?: string[]; 
+    clubs?: string[];    
     createdAt?: Date;
-    updatedAt?: Date
+    updatedAt?: Date;
 }

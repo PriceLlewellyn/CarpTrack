@@ -12,21 +12,24 @@ export class CreateUserDto {
     @Min(0)
     catches!: number;
 
-    @IsString()
+    @IsArray()
+    @IsString() 
     gear!: string[];
 
+    @IsArray()
     @IsString()
     baits!: string[];
 
     @IsOptional()
+    @IsArray()
     @IsString()
     waypoints?: string[];
 
     @IsOptional()
-    @IsString()
+    @IsString() 
     sessions?: string;
 
     @IsOptional()
-    @IsString()
+    @IsString() 
     clubs?: string;
 }

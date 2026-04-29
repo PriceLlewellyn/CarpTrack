@@ -4,135 +4,117 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-//user and social
 model User {
-  id         String       @id @default(uuid())
-  username   String       @unique
-  email      String       @unique
-  catches    Catch[]
-  gear       Gear[]
-  baits      Bait[]
-  waypoints  Waypoint[]
-  sessions   Session[]
-  clubs      ClubMember[]
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
+  email     String     @unique
+  
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
-  //social relations
-  followedBy User[]       @relation("UserFollows")
-  following  User[]       @relation("UserFollows")
+  catches   Catch[]
+  gear      Gear[]
+  baits     Bait[]
+  waypoints Waypoint[]
+  sessions  Session[]
 }
 
-//gear and bait
 model Gear {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   brand     String
   model     String
-  type      GearType 
-  subType   String?  //e.g. "Chod Rig", "13m Pole"
-  size      String?  
-  catches   Catch[]  //prisma needs this to match the @relation in Catch
-  userId    String
+  type      GearType
+  subType   String?
+  size      String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  catches   Catch[]
+  userId    Int
   user      User     @relation(fields: [userId], references: [id])
 }
 
 model Bait {
-  id        String   @id @default(uuid())
-  name      String   
+  id        Int      @id @default(autoincrement())
+  name      String
   flavor    String?
-  type      BaitType 
+  type      BaitType
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   catches   Catch[]
-  userId    String
+  userId    Int
   user      User     @relation(fields: [userId], references: [id])
 }
 
-//sessions
 model Session {
-  id            String       @id @default(uuid())
-  title         String?      
-  style         FishingStyle @default(GENERAL_COARSE)
-  startTime     DateTime     @default(now())
-  endTime       DateTime?
+  id          Int          @id @default(autoincrement())
+  title       String?
+  style       FishingStyle @default(GENERAL_COARSE)
+  startTime   DateTime     @default(now())
+  endTime     DateTime?
+  pegNumber   String?
+  totalWeight Float?
   
-  //match/carp specific data
-  pegNumber     String?
-  totalWeight   Float?       
-  
-  catches       Catch[]
-  userId        String
-  user          User         @relation(fields: [userId], references: [id])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  catches     Catch[]
+  userId      Int
+  user        User         @relation(fields: [userId], references: [id])
 }
 
-//the catch
 model Catch {
-  id            String   @id @default(uuid())
-  species       String
-  weight        Float?   
-  length        Float?   
-  imageUrl      String?
-
-  //carp specifics
-  fishName      String?  //for named specimens
-  isPB          Boolean  @default(false)
-  
-  //location and environment
-  lat           Float
-  lng           Float
-  waterTemp     Float?
-  pressure      Float?
-  
-  //relationships
-  sessionId     String?
-  session       Session? @relation(fields: [sessionId], references: [id])
-  
-  gearId        String?
-  gear          Gear?    @relation(fields: [gearId], references: [id])
-  
-  baitId        String?
-  bait          Bait?    @relation(fields: [baitId], references: [id])
-  
-  userId        String
-  user          User     @relation(fields: [userId], references: [id])
-  
-  createdAt     DateTime @default(now())
-}
-
-//waypoints
-model Waypoint {
-  id          String    @id @default(uuid())
-  label       String   
-  type        PointType 
+  id          Int      @id @default(autoincrement())
+  species     String
+  weight      Float?
+  length      Float?
+  imageUrl    String?
+  fishName    String?
+  isPB        Boolean  @default(false)
   lat         Float
   lng         Float
-  depth       Float?
-  bottomType  String?   // "silt", "gravel"
-  userId      String
-  user        User      @relation(fields: [userId], references: [id])
+  waterTemp   Float?
+  pressure    Float?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  sessionId   Int?
+  session     Session? @relation(fields: [sessionId], references: [id])
+  gearId      Int?
+  gear        Gear?    @relation(fields: [gearId], references: [id])
+  baitId      Int?
+  bait        Bait?    @relation(fields: [baitId], references: [id])
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
 }
 
-//clubs
-model Club {
-  id          String       @id @default(uuid())
-  name        String
-  members     ClubMember[]
+model Waypoint {
+  id         Int       @id @default(autoincrement())
+  label      String
+  type       PointType
+  lat        Float
+  lng        Float
+  depth      Float?
+  bottomType String?
+  
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  userId     Int
+  user       User      @relation(fields: [userId], references: [id])
 }
 
-model ClubMember {
-  id     String @id @default(uuid())
-  role   String @default("MEMBER")
-  userId String
-  clubId String
-  user   User   @relation(fields: [userId], references: [id])
-  club   Club   @relation(fields: [clubId], references: [id])
-}
-
-//enums
 enum GearType {
   ROD
   REEL
