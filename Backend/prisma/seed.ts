@@ -21,7 +21,7 @@ async function main() {
   });
 
   const post2 = await prisma.user.upsert({
-    where: { username: "IestynPrice" },
+    where: { username: 'IestynPrice' },
     update: {},
     create: {
       username: 'IestynPrice',
@@ -39,5 +39,5 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect();
-    await pool.end(); // Don't forget to close the pool!
+    await pool.end();
   });

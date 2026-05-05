@@ -1,35 +1,12 @@
-import { IsString, IsEmail, IsNumber, IsOptional, Min, IsArray } from 'class-validator';
+// import { IsString, IsEmail } from 'class-validator';
+// import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateUserDto {
+// export class CreateUserDto {
+//     @ApiProperty({ example: 'Brent Price', description: 'The name of the user' })
+//     @IsString()
+//     name!: string;
 
-    @IsString()
-    name!: string;
-
-    @IsEmail()
-    email!: string;
-
-    @IsNumber()
-    @Min(0)
-    catches!: number;
-
-    @IsArray()
-    @IsString() 
-    gear!: string[];
-
-    @IsArray()
-    @IsString()
-    baits!: string[];
-
-    @IsOptional()
-    @IsArray()
-    @IsString()
-    waypoints?: string[];
-
-    @IsOptional()
-    @IsString() 
-    sessions?: string;
-
-    @IsOptional()
-    @IsString() 
-    clubs?: string;
-}
+//     @ApiProperty({ example: 'brent@xmen.com', description: 'The email of the user' })
+//     @IsEmail()
+//     email!: string;
+// }

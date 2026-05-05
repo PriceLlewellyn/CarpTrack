@@ -1,8 +1,21 @@
+// src/main.ts
 
-import { Module } from '@nestjs/common';
-import { UsersController } from './modules/usersModule/users.controller';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module.js';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-@Module({
-  controllers: [UsersController],
-})
-export class AppModule {}
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  const config = new DocumentBuilder()
+    .setTitle('Median')
+    .setDescription('The Median API description')
+    .setVersion('0.1')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+  await app.listen(3000);
+}
+bootstrap();
