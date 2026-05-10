@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ES2022", 
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    
+    /* NestJS & Prisma Essentials */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false, // Set to false for NestJS compatibility
+    
+    /* Strictness & Reliability */
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false, // Matches your project config preference
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Connection & Interop */
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    
+    /* Build Settings */
+    "composite": true,
+    "declaration": true,
+    "sourceMap": true
+  }
+}

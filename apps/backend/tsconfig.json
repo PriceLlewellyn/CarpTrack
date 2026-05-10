@@ -1,0 +1,44 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2023",
+    "lib": ["ESNext", "dom"],
+    "types": ["node", "multer", "vitest", "jest"],
+    
+    /* NestJS Essentials */
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "declaration": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "incremental": true,
+
+    /* Output & Paths */
+    "outDir": "./dist",
+    "rootDir": "./",
+    "paths": {
+      "@application/*": ["./src/application/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@adapters/*": ["./src/adapters/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
+      "@config/*": ["./src/config/*"],
+      "@lib/*": ["./src/lib/*"],
+      "src/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/**/*", 
+    "scripts/**/*", 
+    "prisma/**/*",
+    "prisma.config.ts"
+  ],
+  "exclude": [
+    "node_modules", 
+    "test", 
+    "dist"
+  ]
+}

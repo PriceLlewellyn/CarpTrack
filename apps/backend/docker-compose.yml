@@ -1,0 +1,35 @@
+services:
+  carp-db:
+    image: postgres:15-alpine
+    container_name: carp-db
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=carptrack_db
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - carpnet
+
+  pg_admin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    ports:
+      - "8080:80"
+    depends_on:
+      - carp-db
+    networks:
+      - carpnet
+
+networks:
+  carpnet:
+    name: carpnet
+    driver: bridge

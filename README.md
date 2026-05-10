@@ -8,6 +8,4 @@ Password: password123
 http://localhost:8080
 
 PRISMA:
-you can run the generate command to generate the types and Client needed for your project.
-If any changes are made to your schema, you will need to rerun the generate command to keep those types in sync
-npx prisma generate
+pnpm --filter backend-api exec prisma studio - Checks the databse through prismas studio

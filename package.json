@@ -1,80 +1,74 @@
 {
-  "name": "backend",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "name": "monorepo",
+  "version": "1.0.0",
+  "description": "Vector",
   "private": true,
-  "license": "UNLICENSED",
+  "type": "module",
   "scripts": {
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
-  },
-  "dependencies": {
-    "@nestjs/common": "^11.0.1",
-    "@nestjs/core": "^11.0.1",
-    "@nestjs/platform-express": "^11.0.1",
-    "@prisma/adapter-pg": "^7.8.0",
-    "@prisma/client": "^7.8.0",
-    "@prisma/config": "^7.8.0",
-    "dotenv": "^17.4.2",
-    "pg": "^8.20.0",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "serve:frontend": "pnpm --filter frontend-ui dev",
+    "serve:frontend:localbe": "pnpm --filter frontend-ui dev:localbe",
+    "serve:api": "pnpm --filter backend-api dev",
+    "storybook": "pnpm --filter frontend-ui storybook",
+
+    "seed": "pnpm --filter backend-api seed",
+    "db:generate": "pnpm --filter backend-api prisma:generate",
+    "db:migrate": "pnpm --filter backend-api prisma:migrate",
+    "db:studio": "pnpm --filter backend-api prisma:studio",
+
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest watch",
+    "e2e:smoke": "pnpm --filter frontend-ui e2e:smoke",
+    "generate:ato-files": "ts-node ./scripts/testing/ato-file/generate-ato-file.ts yesterday today tomorrow",
+
+    "prepare": "husky",
+    "pre-commit": "lint-staged && pnpm --filter backend-api build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+
+    "migration:generate": "pnpm db:migrate",
+    "migration:run": "pnpm db:migrate"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.18.0",
-    "@nestjs/cli": "^11.0.0",
-    "@nestjs/schematics": "^11.0.0",
-    "@nestjs/testing": "^11.0.1",
-    "@types/express": "^5.0.0",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^24.0.0",
-    "@types/pg": "^8.20.0",
-    "@types/supertest": "^7.0.0",
-    "eslint": "^9.18.0",
-    "eslint-config-prettier": "^10.0.1",
-    "eslint-plugin-prettier": "^5.2.2",
-    "globals": "^17.0.0",
-    "jest": "^30.0.0",
-    "prettier": "^3.4.2",
-    "source-map-support": "^0.5.21",
-    "supertest": "^7.0.0",
-    "ts-jest": "^29.2.5",
-    "ts-loader": "^9.5.2",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.20.0"
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "@typescript-eslint/eslint-plugin": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-plugin-prettier": "catalog:",
+
+    "@chromatic-com/storybook": "catalog:",
+    "@faker-js/faker": "catalog:",
+    "@playwright/test": "catalog:",
+    "@storybook/react-vite": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "husky": "catalog:",
+    "lint-staged": "catalog:",
+    "ts-node": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+  "dependencies": {
+    "@tanstack/react-query": "catalog:",
+    "reflect-metadata": "catalog:",
+    "zod": "catalog:",
+    "vite-tsconfig-paths": "catalog:"
   },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  }
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.20.0"
 }
