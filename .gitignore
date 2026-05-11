@@ -1,9 +1,32 @@
-# compiled output
-/dist
-/node_modules
-/build
+# --- Monorepo / Package Manager ---
+node_modules
+**/node_modules
+pnpm-lock.yaml
+# Keep the root lockfile, but ignore accidental npm/yarn ones
+package-lock.json
+yarn.lock
 
-# Logs
+# --- Compiled Output ---
+dist
+**/dist
+build
+**/build
+/generated
+**/generated
+
+# --- Database & Docker ---
+# Crucial: Ignore the actual DB binary data from your Docker volume
+postgres_data/
+**/postgres_data/
+*.db
+*.db-journal
+
+# --- Prisma ---
+# Ignore generated client if it's not in node_modules
+/generated/prisma
+**/generated/prisma
+
+# --- Logs ---
 logs
 *.log
 npm-debug.log*
@@ -12,50 +35,40 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# OS
+# --- OS & IDEs ---
 .DS_Store
-
-# Tests
-/coverage
-/.nyc_output
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
+Thumbs.db
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.idea/
+*.sublime-workspace
+.project
+.classpath
+.settings/
 
-# dotenv environment variable files
+# --- Environment Variables ---
+# Never commit these!
 .env
+.env.local
 .env.development.local
 .env.test.local
 .env.production.local
-.env.local
+**/.env
+**/.env.local
 
-# temp directory
+# --- Tests & Coverage ---
+coverage/
+**/coverage/
+.nyc_output
+
+# --- Temp / Runtime ---
 .temp
 .tmp
-
-# Runtime data
 pids
 *.pid
 *.seed
 *.pid.lock
-
-# Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-<<<<<<< HEAD
-=======
-
-/generated/prisma
->>>>>>> f89b17e (Backend striped, re engineered to get the standard backend working)
