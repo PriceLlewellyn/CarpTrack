@@ -5,21 +5,25 @@ import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private _prisma: PrismaService) {}
   
-  create(createUserDto: CreateUserDto) {
+  create(_createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this._prisma.user.findMany({
+  where: {
+    fisherman: true,
+  },
+});
   }
 
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  update(id: number, _updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 

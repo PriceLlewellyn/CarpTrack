@@ -53,6 +53,7 @@
     "vitest": "catalog:"
   },
   "dependencies": {
+    "@nestjs/mapped-types": "*",
     "@tanstack/react-query": "catalog:",
     "reflect-metadata": "catalog:",
     "zod": "catalog:",
