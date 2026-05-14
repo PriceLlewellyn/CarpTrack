@@ -1,4 +1,5 @@
 services:
+  # 1. THE DATABASE
   carp-db:
     image: postgres:15-alpine
     container_name: carp-db
@@ -14,6 +15,24 @@ services:
     networks:
       - carpnet
 
+  # 2. THE BACKEND (NESTJS) 
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: carp-backend
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://admin:password123@carp-db:5432/carptrack_db?schema=public
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - carp-db
+    networks:
+      - carpnet
+
+  # 3. DATABASE GUI
   pg_admin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin

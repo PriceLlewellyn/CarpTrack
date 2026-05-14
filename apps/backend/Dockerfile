@@ -1,0 +1,20 @@
+FROM node:22-alpine
+RUN npm install -g pnpm
+WORKDIR /app
+
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+
+COPY apps/backend/package.json ./apps/backend/
+
+RUN pnpm install --frozen-lockfile
+
+COPY apps/backend/ ./apps/backend/
+
+WORKDIR /app/apps/backend
+
+RUN NODE_TLS_REJECT_UNAUTHORIZED=0 pnpm exec prisma generate
+
+RUN pnpm run build
+
+EXPOSE 3000
+CMD ["node", "dist/src/main.js"]

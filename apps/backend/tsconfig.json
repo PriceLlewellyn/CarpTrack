@@ -5,7 +5,7 @@
     "moduleResolution": "NodeNext",
     "target": "ES2023",
     "lib": ["ESNext", "dom"],
-    "types": ["node", "multer", "vitest", "jest"],
+    "types": ["node", "multer", "vitest"], 
     
     /* NestJS Essentials */
     "emitDecoratorMetadata": true,
