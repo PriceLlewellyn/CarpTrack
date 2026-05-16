@@ -7,27 +7,30 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class UsersService {
   constructor(private _prisma: PrismaService) {}
   
+  findNonFisherman() {
+    return this._prisma.user.findMany({ where: { fisherman: false } });
+  }
+
   create(_createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    return this._prisma.user.create({ data: _createUserDto });
   }
 
   findAll() {
-    return this._prisma.user.findMany({
-  where: {
-    fisherman: true,
-  },
-});
+    return this._prisma.user.findMany({ where: { fisherman: true, }});
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this._prisma.user.findUnique({ where: { id } });
   }
 
   update(id: number, _updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return this._prisma.user.update({
+      where: {id},
+      data: UpdateUserDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this._prisma.user.delete({ where: { id } });
   }
 }
