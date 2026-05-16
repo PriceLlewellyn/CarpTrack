@@ -9,3 +9,4 @@ http://localhost:8080
 
 PRISMA:
 pnpm --filter backend-api exec prisma studio - Checks the databse through prismas studio
+npx prisma generate - when making update to schema

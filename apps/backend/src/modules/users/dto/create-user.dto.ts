@@ -6,7 +6,10 @@ export class CreateUserDto {
   username!: string;
 
   @ApiProperty()
-    email!: string;
+  email!: string;
+
+  @ApiProperty()
+  age!: number;
 
   @ApiProperty({ required: false, default: false })
   fisherman?: boolean = false;
