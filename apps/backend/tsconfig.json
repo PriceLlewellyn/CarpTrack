@@ -35,7 +35,7 @@
     "scripts/**/*", 
     "prisma/**/*",
     "prisma.config.ts"
-  ],
+, "../../src/gear"  ],
   "exclude": [
     "node_modules", 
     "test", 

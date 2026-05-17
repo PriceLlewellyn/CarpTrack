@@ -19,6 +19,7 @@ async function main() {
     create: {
       username: 'LlewellynPrice',
       email: 'llewellyn67.P@hotmail.com',
+      age: 26,
       fisherman: true,
     },
   });
@@ -29,6 +30,7 @@ async function main() {
     create: {
       username: 'IestynPrice',
       email: 'iestyn89.P@hotmail.com',
+      age: 27,
       fisherman: true,
     },
   });
