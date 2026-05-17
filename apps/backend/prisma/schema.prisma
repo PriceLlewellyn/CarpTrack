@@ -31,11 +31,14 @@ model User {
 
 model Gear {
   id        Int      @id @default(autoincrement())
-  brand     String
-  model     String
-  type      String   
-  subType   String?
-  size      String?
+  rod       String
+  rodBrand  String
+  rodFt     Float
+  reel      String
+  reelBrand String
+  reelSize  Int
+  line      String
+  gearType  String   
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

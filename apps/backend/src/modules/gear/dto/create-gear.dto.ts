@@ -1,29 +1,47 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateGearDto {
+  @ApiProperty({ example: 'Mojo Bass' })
+  @IsString()
+  @IsNotEmpty()
+  rod!: string;
+
+  @ApiProperty({ example: 'St. Croix' })
+  @IsString()
+  @IsNotEmpty()
+  rodBrand!: string;
+
+  @ApiProperty({ example: 7.5 })
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  rodFt!: number;
+
+  @ApiProperty({ example: 'Stradic' })
+  @IsString()
+  @IsNotEmpty()
+  reel!: string;
+
   @ApiProperty({ example: 'Shimano' })
   @IsString()
   @IsNotEmpty()
-  brand!: string;
+  reelBrand!: string;
 
-  @ApiProperty({ example: 'Stradic FL' })
+  @ApiProperty({ example: 3000 })
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  reelSize!: number;
+
+  @ApiProperty({ example: '15lb Braid' })
   @IsString()
   @IsNotEmpty()
-  model!: string;
+  line!: string;
 
-  @ApiProperty({ example: 'Reel' })
+  @ApiProperty({ example: 'Spinning Setup' })
   @IsString()
   @IsNotEmpty()
-  type!: string;  
-
-  @ApiPropertyOptional({ example: 'Spinning' })
-  @IsOptional()
-  @IsString()
-  subType?: string;
-
-  @ApiPropertyOptional({ example: '3000' })
-  @IsOptional()
-  @IsString()
-  size?: string;
+  gearType!: string;
 }

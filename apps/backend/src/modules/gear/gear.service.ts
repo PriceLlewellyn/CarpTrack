@@ -21,7 +21,7 @@ export class GearService {
   findAll() {
     return this._prisma.gear.findMany({ 
       where: { 
-        type: "Reel" }});
+        reelSize: 3000 }});
   }
 
   findOne(id: number, userId: number) {

@@ -6,19 +6,28 @@ export class GearEntity implements PrismaGear {
   id!: number; 
 
   @ApiProperty()
-  brand!: string;
+  rod!: string;
 
   @ApiProperty()
-  model!: string;
+  rodBrand!: string;
 
   @ApiProperty()
-  type!: string;
+  rodFt!: number;
 
-  @ApiPropertyOptional({ nullable: true })
-  subType!: string | null;
+  @ApiPropertyOptional()
+  reel!: string;
 
-  @ApiPropertyOptional({ nullable: true })
-  size!: string | null;
+  @ApiPropertyOptional()
+  reelBrand!: string;
+
+  @ApiPropertyOptional()
+  reelSize!: number;
+
+  @ApiPropertyOptional()
+  line!: string;
+
+  @ApiPropertyOptional()
+  gearType!: string;
 
   @ApiProperty()
   userId!: number;
