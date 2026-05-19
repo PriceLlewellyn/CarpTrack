@@ -5,6 +5,8 @@ BACKEND := $(PM) --filter backend-api
 
 .PHONY: dev build start test lint format studio migrate generate seed clean-seed help
 
+
+
 # --- Execution ---
 
 dev: ## Run the backend in development mode with SWC
@@ -15,6 +17,8 @@ build: ## Build the project for production
 
 start: ## Start the production build
 	$(BACKEND) start:prod
+
+
 
 # --- Database / Prisma ---
 
@@ -37,6 +41,8 @@ db-sync: ## Generate client and run migrations
 	$(BACKEND) prisma:generate
 	$(BACKEND) prisma:migrate
 
+
+
 # --- Quality Control ---
 
 lint: ## Run ESLint
@@ -54,10 +60,14 @@ test-watch: ## Run tests in watch mode
 coverage: ## Run test coverage
 	$(BACKEND) test:coverage
 
+
+
 # --- Documentation ---
 
 openapi: ## Generate OpenAPI/Swagger documentation
 	$(BACKEND) openapi:generate
+
+
 
 # --- Helpers ---
 

@@ -11,3 +11,4 @@ PRISMA:
 pnpm --filter backend-api exec prisma studio - Checks the databse through prismas studio
 npx prisma generate - when making update to schema
 npx prisma db seed - seeds the database
+npx prisma migrate reset - reset the database
