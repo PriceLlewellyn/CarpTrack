@@ -1,29 +1,25 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient , User } from '@prisma/client';
 
 export async function seedUsers(prisma: PrismaClient) {
   console.log('Seeding Users...');
 
-  const user1 = await prisma.user.upsert({
-    where: { username: 'LlewellynPrice' },
-    update: {},
-    create: {
-      username: 'LlewellynPrice',
-      email: 'llewellyn67.P@hotmail.com',
-      age: 26,
-      fisherman: true,
-    },
-  });
+  const userData = [
+    { username: 'LlewellynPrice', email: 'llewellyn67.P@hotmail.com', age: 26, fisherman: true },
+    { username: 'IestynPrice', email: 'iestyn89.P@hotmail.com', age: 27, fisherman: true },
+    { username: 'BrentPrice', email: 'BrentPrice.P@hotmail.com', age: 64, fisherman: true },
+    { username: 'GaewainPrice', email: 'GaewainPrice.P@hotmail.com', age: 24, fisherman: true },
+  ];
 
-  const user2 = await prisma.user.upsert({
-    where: { username: 'IestynPrice' },
-    update: {},
-    create: {
-      username: 'IestynPrice',
-      email: 'iestyn89.P@hotmail.com',
-      age: 27,
-      fisherman: true,
-    },
-  });
+  const users: User[] = [];
 
-  return [user1, user2];
+  for (const u of userData) {
+    const user = await prisma.user.upsert({
+      where: { username: u.username },
+      update: {},
+      create: u,
+    });
+    users.push(user);
+  }
+
+  return users;
 }

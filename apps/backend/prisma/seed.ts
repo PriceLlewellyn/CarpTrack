@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Gear, PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 import 'dotenv/config';
@@ -15,16 +15,23 @@ async function main() {
 
   const users = await seedUsers(prisma);
   
-  const primaryUserId = users[0].id;
+  const allGear: Gear[] = [];
 
-  const gear = await seedGear(prisma, primaryUserId);
+  for (const user of users) {
+    const userGear = await seedGear(prisma, user.id);
+    allGear.push(...userGear);
+  }
 
-  console.log('--- Seed Summary ---');
+  console.log('\n--- Seed Summary ---');
   console.log('Users created:');
   console.table(users.map(u => ({ id: u.id, username: u.username })));
   
-  console.log('Gear created:');
-  console.table(gear.map(g => ({ id: g.id, brand: g.brand, model: g.model, ownerId: g.userId })));
+  console.log('Gear created and linked:');
+  console.table(allGear.map(g => ({ 
+    id: g.id, 
+    rod: g.rod, 
+    ownerId: g.userId 
+  })));
 }
 
 main()

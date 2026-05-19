@@ -49,17 +49,23 @@ model Gear {
 }
 
 model Bait {
-  id        Int      @id @default(autoincrement())
-  name      String
-  flavor    String?
-  type      String  
+  id           Int      @id @default(autoincrement())
+  name         String   
+  brand        String?  
+  type         String   
+  flavor       String?  
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  size         String?  
+  color        String?  
+  presentation String?  
+  liquidUsed   String?  
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  catches   Catch[]
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  catches      Catch[]
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
 }
 
 model Session {
