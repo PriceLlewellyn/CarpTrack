@@ -40,7 +40,7 @@ export class CreateBaitDto {
   @ApiProperty({ example: true })
   @IsBoolean()
   @IsNotEmpty()
-  liquidised!: boolean;
+  isliquidUsed!: boolean;
 }
 
 

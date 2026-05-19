@@ -22,13 +22,13 @@ export class BaitEntity implements PrismaBait {
   size!: string;
 
   @ApiPropertyOptional()
-  color!: string;
+  colour!: string;
 
   @ApiPropertyOptional()
   presentation!: string;
 
   @ApiPropertyOptional()
-  liquidUsed!: string;
+  isliquidUsed!: boolean;
 
   @ApiProperty()
   userId!: number;
