@@ -1,9 +1,10 @@
-import { Gear, PrismaClient } from '@prisma/client';
+import { Bait, Gear, PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 import 'dotenv/config';
 import { seedUsers } from './user.seed';
 import { seedGear } from './gear.seed';
+import { seedBait } from './bait.seed';
 
 const { Pool } = pg;
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -13,13 +14,23 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log('--- Starting Database Seed ---');
 
+  await prisma.bait.deleteMany({});
+  await prisma.gear.deleteMany({});
+  await prisma.user.deleteMany({});
+
   const users = await seedUsers(prisma);
   
   const allGear: Gear[] = [];
+  const allBait: Bait[] = [];
 
-  for (const user of users) {
-    const userGear = await seedGear(prisma, user.id);
+  for (let i = 0; i < users.length; i++) {
+    const user = users[i]
+
+    const userGear = await seedGear(prisma, user.id, i); 
+    const userBait = await seedBait(prisma, user.id, i);
+
     allGear.push(...userGear);
+    allBait.push(...userBait);
   }
 
   console.log('\n--- Seed Summary ---');
@@ -31,6 +42,13 @@ async function main() {
     id: g.id, 
     rod: g.rod, 
     ownerId: g.userId 
+  })));
+
+  console.log('Bait created and linked:');
+  console.table(allBait.map(b => ({ 
+    id: b.id, 
+    name: b.name, 
+    ownerId: b.userId 
   })));
 }
 

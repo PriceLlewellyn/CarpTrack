@@ -1,6 +1,6 @@
-import { PrismaClient , Gear } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
-export async function seedGear(prisma: PrismaClient, userId: number) {
+export async function seedGear(prisma: PrismaClient, userId: number, index: number) {
   console.log(`Seeding Gear for User ID: ${userId}...`);
 
   const gearData = [
@@ -26,17 +26,14 @@ export async function seedGear(prisma: PrismaClient, userId: number) {
     },
   ];
 
-  const createdGear: Gear[] = [];
+const g = gearData[index % gearData.length];
 
-  for (const g of gearData) {
-    const item = await prisma.gear.create({
-      data: {
-        ...g,
-        userId: userId,
-      },
-    });
-    createdGear.push(item);
-  }
+  const item = await prisma.gear.create({
+    data: {
+      ...g,
+      userId: userId,
+    },
+  });
 
-  return createdGear;
+  return [item]; 
 }
