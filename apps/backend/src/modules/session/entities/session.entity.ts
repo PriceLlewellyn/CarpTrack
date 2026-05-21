@@ -1,6 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Session as PrismaSession } from '@prisma/client';
 
-export class CreateGearDto {
+export class SessionEntity implements PrismaSession {
+  @ApiProperty()
+  id!: number;
+
   @ApiProperty()
   title!: string; 
 
@@ -11,13 +15,16 @@ export class CreateGearDto {
   startTime!: Date;
 
   @ApiProperty()
-  endTime?: Date;
+  endTime!: Date;
 
   @ApiPropertyOptional()
-  pegNumber?: string;
+  pegNumber!: string;
 
   @ApiPropertyOptional()
-  totalWeight?: number; 
+  totalWeight!: number; 
+
+  @ApiProperty()
+  userId!: number;
 
   @ApiProperty()
   createdAt!: Date;

@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class CreateGearDto {
+export class CreateSessionDto {
   @ApiProperty({ example: 'Feeder Masters', description: 'The name of the gear setup' })
   @IsString()
   @IsNotEmpty()
