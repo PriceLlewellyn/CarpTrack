@@ -9,55 +9,55 @@
     "serve:frontend:localbe": "pnpm --filter frontend-ui dev:localbe",
     "serve:api": "pnpm --filter backend-api dev",
     "storybook": "pnpm --filter frontend-ui storybook",
-
     "seed": "pnpm --filter backend-api seed",
     "db:generate": "pnpm --filter backend-api prisma:generate",
     "db:migrate": "pnpm --filter backend-api prisma:migrate",
     "db:studio": "pnpm --filter backend-api prisma:studio",
-
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest watch",
     "e2e:smoke": "pnpm --filter frontend-ui e2e:smoke",
     "generate:ato-files": "ts-node ./scripts/testing/ato-file/generate-ato-file.ts yesterday today tomorrow",
-
     "prepare": "husky",
     "pre-commit": "lint-staged && pnpm --filter backend-api build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-
     "migration:generate": "pnpm db:migrate",
     "migration:run": "pnpm db:migrate"
   },
   "devDependencies": {
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "@typescript-eslint/eslint-plugin": "catalog:",
-    "@typescript-eslint/parser": "catalog:",
-    "eslint-config-prettier": "catalog:",
-    "eslint-plugin-prettier": "catalog:",
-
     "@chromatic-com/storybook": "catalog:",
     "@faker-js/faker": "catalog:",
     "@playwright/test": "catalog:",
     "@storybook/react-vite": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/node": "catalog:",
+    "@types/passport-jwt": "^4.0.1",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@typescript-eslint/eslint-plugin": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-plugin-prettier": "catalog:",
     "husky": "catalog:",
     "lint-staged": "catalog:",
+    "prettier": "catalog:",
     "ts-node": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "dependencies": {
+    "@nestjs/jwt": "catalog:",
     "@nestjs/mapped-types": "*",
+    "@nestjs/passport": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "passport": "^0.7.0",
+    "passport-jwt": "catalog:",
     "reflect-metadata": "catalog:",
-    "zod": "catalog:",
-    "vite-tsconfig-paths": "catalog:"
+    "vite-tsconfig-paths": "catalog:",
+    "zod": "catalog:"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [

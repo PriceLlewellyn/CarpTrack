@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -25,15 +25,45 @@ export class SessionService {
   }
 
   findOne(id: number, userId: number) {
-    const session = this._prisma.gear.findFirst({
+    const session = this._prisma.session.findFirst({
           where: {
             id, userId
           }
         });
         if (!session) {
-          throw new NotFoundException('Session noot found or you do not have permission.');
+          throw new NotFoundException('Session not found or you do not have permission.');
         }
         return session;
+  }
+
+  async findActiveSession(userId: number) {
+    const activeSession = await this._prisma.session.findFirst({
+      where:{
+        id: userId,
+        endTime: null,
+      }
+    })
+    return activeSession
+  }
+
+  async endSession(id: number, userId: number, _createSessionDto: UpdateSessionDto) {
+    const session = await this._prisma.session.findUnique({where: { id } })
+
+    if(!session || session.userId !== userId) {
+      throw new UnauthorizedException('Invalid session ownership.');
+    }
+
+    const aggregateSession = await this._prisma.catch.aggregate({
+        _sum: {weight: true},
+        where: {sessionId: id}
+    })
+    return this._prisma.session.update({
+      where: { id },
+      data: {
+        endTime: new Date(),
+        totalWeight: aggregateSession._sum.weight || 0,
+      }
+    })
   }
 
   update(id: number, _createSessionDto: UpdateSessionDto) {

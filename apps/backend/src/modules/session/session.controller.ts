@@ -25,9 +25,15 @@ export class SessionController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     const userId = 1;
-    
     return this.sessionService.findOne(+id, userId);
   }
+
+  @Get('active')
+  async findActiveSession(@CurrentUser('id') userId: number) {
+    const session = await this.sessionService.findActiveSession(userId)
+    return session || null;
+  }
+
 
   @Patch(':id')
     @ApiCreatedResponse({ type: SessionEntity })
@@ -41,3 +47,4 @@ export class SessionController {
     return this.sessionService.remove(+id);
   }
 }
+
