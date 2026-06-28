@@ -14,9 +14,11 @@ datasource db {
 
 model User {
   id        Int        @id @default(autoincrement())
-  username  String     @unique
+  username  String?     @unique
   email     String     @unique
-  age       Int        
+  name      String?
+  password  String     @default("temp_hash_123")
+  age       Int?        
   fisherman Boolean    @default(false)
   
   createdAt DateTime   @default(now())
