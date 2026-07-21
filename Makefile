@@ -1,77 +1,102 @@
-# Variables
+# --- Variables ---
 PM := pnpm
-# This targets the 'name' field in your backend package.json
 BACKEND := $(PM) --filter backend-api
+FRONTEND := $(PM) --filter frontend-ui
+DOCKER_COMPOSE := docker compose
 
-.PHONY: dev build start test lint format studio migrate generate seed clean-seed help
+.PHONY: up backend frontend build start migrate generate studio seed clean-seed db db-sync lint format test test-watch coverage storybook openapi docker-up docker-down docker-db docker-logs docker-build docker-clean help
 
+# --- Application Services ---
 
+up: ## Run both frontend and backend concurrently in dev mode
+	$(PM) --parallel --filter backend-api --filter frontend-ui dev
 
-# --- Execution ---
+backend: ## Run only the backend in dev mode
+	$(PM) serve:api
 
-dev: ## Run the backend in development mode with SWC
-	$(BACKEND) dev
+frontend: ## Run only the frontend in dev mode
+	$(PM) serve:frontend
 
-build: ## Build the project for production
+frontend-local: ## Run frontend with local backend configuration
+	$(PM) serve:frontend:localbe
+
+storybook: ## Run Storybook
+	$(PM) storybook
+
+# --- Docker Commands ---
+
+docker-up: ## Start all Docker containers in background
+	$(DOCKER_COMPOSE) up -d
+
+docker-db: ## Start only the database container in Docker
+	$(DOCKER_COMPOSE) up -d db
+
+docker-down: ## Stop and remove all Docker containers
+	$(DOCKER_COMPOSE) down
+
+docker-logs: ## View and tail logs for all containers
+	$(DOCKER_COMPOSE) logs -f
+
+docker-build: ## Build or rebuild Docker images
+	$(DOCKER_COMPOSE) build
+
+docker-clean: ## Stop containers and delete all volumes (hard reset)
+	$(DOCKER_COMPOSE) down -v
+
+# --- Build & Production ---
+
+build: ## Build backend project for production
 	$(BACKEND) build
 
-start: ## Start the production build
+start: ## Start production backend server
 	$(BACKEND) start:prod
 
+# --- Database Setup & Prisma ---
 
+db: db-sync seed ## Full database setup (generate + migrate + seed)
 
-# --- Database / Prisma ---
+db-sync: generate migrate ## Generate Prisma client and run migrations
 
 migrate: ## Run database migrations
-	$(BACKEND) prisma:migrate
+	$(PM) db:migrate
 
 generate: ## Generate Prisma client
-	$(BACKEND) prisma:generate
+	$(PM) db:generate
 
-studio: ## Open Prisma Studio
-	$(BACKEND) prisma:studio
+studio: ## Open Prisma Studio UI
+	$(PM) db:studio
 
 seed: ## Seed the database
-	$(BACKEND) seed
+	$(PM) seed
 
 clean-seed: ## Clean and re-seed the database
 	$(BACKEND) seed:clean
 
-db-sync: ## Generate client and run migrations
-	$(BACKEND) prisma:generate
-	$(BACKEND) prisma:migrate
-
-
-
 # --- Quality Control ---
 
-lint: ## Run ESLint
-	$(BACKEND) lint:fix
+lint: ## Fix ESLint issues
+	$(PM) lint:fix
 
-format: ## Run Prettier
-	$(BACKEND) format
+format: ## Run Prettier across workspace
+	$(PM) format
 
-test: ## Run all tests using Vitest
-	$(BACKEND) test
+test: ## Run test suite
+	$(PM) test
 
 test-watch: ## Run tests in watch mode
-	$(BACKEND) test:watch
+	$(PM) test:watch
 
-coverage: ## Run test coverage
-	$(BACKEND) test:coverage
-
-
+coverage: ## Generate test coverage report
+	$(PM) test:coverage
 
 # --- Documentation ---
 
-openapi: ## Generate OpenAPI/Swagger documentation
+openapi: ## Generate OpenAPI/Swagger docs
 	$(BACKEND) openapi:generate
-
-
 
 # --- Helpers ---
 
-help: ## Show this help message
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
+help: ## Show available commands
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-18s\033[0m %s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
