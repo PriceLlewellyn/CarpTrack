@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User as PrismaUser } from '@prisma/client';
-import { IsNotEmpty } from 'class-validator';
+import { Exclude } from 'class-transformer';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class UserEntity implements PrismaUser {
   @ApiProperty({ example: 1 })
@@ -28,4 +29,13 @@ export class UserEntity implements PrismaUser {
   @ApiProperty()
   updatedAt!: Date;
 
-}
+  @ApiProperty({ example: 'Llewellyn Price', required: false, nullable: true })
+  @IsOptional()
+  name!: string | null;
+
+  @Exclude()
+  password!: string;
+
+  constructor(partial: Partial<UserEntity>) {
+    Object.assign(this, partial);
+}}

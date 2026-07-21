@@ -71,6 +71,7 @@
     "@nestjs/terminus": "catalog:",
     "@prisma/adapter-pg": "catalog:",
     "@prisma/client": "catalog:",
+    "axios": "^1.18.1",
     "bcrypt": "^6.0.0",
     "class-transformer": "catalog:",
     "class-validator": "catalog:",

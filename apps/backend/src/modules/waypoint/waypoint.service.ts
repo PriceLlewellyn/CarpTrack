@@ -4,7 +4,7 @@ import { UpdateWaypointDto } from './dto/update-waypoint.dto';
 
 @Injectable()
 export class WaypointService {
-  create(createWaypointDto: CreateWaypointDto) {
+  create(_createWaypointDto: CreateWaypointDto) {
     return 'This action adds a new waypoint';
   }
 
@@ -16,7 +16,7 @@ export class WaypointService {
     return `This action returns a #${id} waypoint`;
   }
 
-  update(id: number, updateWaypointDto: UpdateWaypointDto) {
+  update(id: number, _updateWaypointDto: UpdateWaypointDto) {
     return `This action updates a #${id} waypoint`;
   }
 

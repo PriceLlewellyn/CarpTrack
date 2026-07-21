@@ -21,7 +21,7 @@ export class SessionController {
     @ApiOkResponse({ type: SessionEntity, isArray: true })
     findAll() {
       return this.sessionService.findAll();
-    }
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -40,7 +40,7 @@ export class SessionController {
     @ApiCreatedResponse({ type: SessionEntity })
     update(@Param('id') id: string, @Body() updateSessionDto: UpdateSessionDto) {
       return this.sessionService.update(+id, updateSessionDto);
-    }
+  }
 
   @Delete(':id')
   @ApiCreatedResponse({ type: SessionEntity })
