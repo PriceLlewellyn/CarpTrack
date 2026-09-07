@@ -49,13 +49,21 @@
     "vitest": "catalog:"
   },
   "dependencies": {
+    "@base-ui/react": "^1.7.0",
+    "@hookform/resolvers": "^5.9.1",
     "@nestjs/jwt": "catalog:",
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "catalog:",
+    "@prisma/client": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "passport": "^0.7.0",
     "passport-jwt": "catalog:",
+    "react-hook-form": "^7.87.0",
+    "react-router-dom": "^7.18.3",
     "reflect-metadata": "catalog:",
+    "tailwind-merge": "^3.6.0",
     "vite-tsconfig-paths": "catalog:",
     "zod": "catalog:"
   },

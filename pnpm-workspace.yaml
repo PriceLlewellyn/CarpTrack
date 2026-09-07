@@ -1,6 +1,15 @@
 packages:
   - apps/**
 
+supportedArchitectures:
+  os:
+    - current
+    - linux
+  cpu:
+    - current
+    - x64
+    - arm64
+
 catalog:
   '@chromatic-com/storybook': ^1.2.0
   '@faker-js/faker': ^8.4.0
@@ -19,7 +28,7 @@ catalog:
   '@nestjs/testing': ^10.0.0
   '@playwright/test': ^1.42.0
   '@prisma/adapter-pg': ^7.0.0
-  '@prisma/client': ^7.0.0
+  '@prisma/client': 7.10.0
   '@prisma/config': ^7.0.0
   '@storybook/addon-docs': ^8.0.0
   '@storybook/addon-links': ^8.0.0
@@ -39,8 +48,8 @@ catalog:
   '@types/multer': ^1.4.11
   '@types/node': ^20.0.0
   '@types/pg': ^8.11.0
-  '@types/react': ^18.2.0
-  '@types/react-dom': ^18.2.0
+  '@types/react': ^18.3.0
+  '@types/react-dom': ^18.3.0
   '@types/supertest': ^6.0.2
   '@typescript-eslint/eslint-plugin': ^7.0.0
   '@typescript-eslint/parser': ^7.0.0
@@ -96,7 +105,13 @@ catalog:
   webpack: ^5.90.0
   webpack-node-externals: ^3.0.0
   webpack-watch-files-plugin: ^1.2.0
-  zod: ^3.22.4
+  zod: 3.25.76
+
+
+overrides:
+  '@types/react': 19.2.4
+  '@types/react-dom': 19.2.4
+    
 
 onlyBuiltDependencies:
   - '@nestjs/core'
