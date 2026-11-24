@@ -1,46 +1,46 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
+import { UsersService } from '../user/user.service';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  private readonly jwtSecret = process.env.JWT_SECRET!;
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  constructor(private prisma: PrismaService) {}
+  async register(dto: RegisterDto) {
+    const user = await this.usersService.create(dto);
+    const accessToken = await this.signToken(user.id, user.email);
 
-  async hashPassword(password: string): Promise<string> {
-    const salt = await bcrypt.genSalt();
-    return bcrypt.hash(password, salt);
+    return {
+      user,
+      access_token: accessToken,
+    };
   }
 
-  async generateToken(userId: number): Promise<string> {
-    return jwt.sign({ userId }, this.jwtSecret, { expiresIn: '8h' });
-  }
-
-  async register(email: string, password: string): Promise<{ token: string }> {
-    const hashedPassword = await this.hashPassword(password);
-    const user = await this.prisma.user.create({
-      data: { email, password: hashedPassword },
-    });
-    const token = await this.generateToken(user.id);
-    return { token };
-  }
-
-  async login(email: string, password: string): Promise<{ token: string }> {
-    const user = await this.prisma.user.findUnique({ where: { email } });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('Invalid credentials');
+  async login(dto: LoginDto) {
+    const user = await this.usersService.findByEmailWithPassword(dto.email);
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
     }
-    const token = await this.generateToken(user.id);
-    return { token };
+
+    const passwordMatches = await bcrypt.compare(dto.password, user.password);
+    if (!passwordMatches) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const accessToken = await this.signToken(user.id, user.email);
+
+    return {
+      access_token: accessToken,
+    };
   }
 
-  async validateToken(token: string): Promise<any> {
-    try {
-      return jwt.verify(token, this.jwtSecret);
-    } catch (error) {
-      throw new UnauthorizedException('Invalid or expired token');
-    }
+  private signToken(userId: number, email: string): Promise<string> {
+    return this.jwtService.signAsync({ sub: userId, email });
   }
 }
